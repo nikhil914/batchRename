@@ -12,11 +12,15 @@ def add_context_menu_entry():
     key_path = r"Directory\shell\BatchRename"
     command_key_path = r"Directory\shell\BatchRename\command"
 
+    # Path to the icon (you can use any .ico file or a file with an embedded icon like .exe or .dll)
+    icon_path = os.path.abspath("icon.ico")  # Replace with the path to your icon file
+
    
     # Debugging output to ensure paths are correct
     print(f"Python Executable: {python_exe}")
     print(f"Script Path: {script_path}")
-    
+    print(f"Icon Path: {icon_path}")
+
     # Create the registry key and set values
     try:
         # Open or create the registry key for the context menu
@@ -31,6 +35,8 @@ def add_context_menu_entry():
 
         with reg.CreateKey(reg.HKEY_CLASSES_ROOT, key_path) as reg_key:
             reg.SetValue(reg_key, "", reg.REG_SZ, "Batch Rename by Nik")
+            # Set the icon for the context menu entry
+            reg.SetValueEx(reg_key, "Icon", 0, reg.REG_SZ, icon_path)
         
         # Set the command to run our script with the selected folder as an argument
         with reg.CreateKey(reg.HKEY_CLASSES_ROOT, command_key_path) as reg_key:
